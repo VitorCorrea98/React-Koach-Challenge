@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+	scroll-behavior: smooth scroll;
+}
+
+.Gridao {
+	@apply grid md:grid-flow-col md:grid-cols-3 md:grid-rows-2;
+}
+
+.rightColor {
+	background-color: #2d488f;
+}
