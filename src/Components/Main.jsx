@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import axios from "axios";
 import CardUser from "./CardUser";
-import { Link } from "react-router-dom";
 import BeforeFetch from "./BeforeFetch";
 import Loader from "./Loader";
+import axios from "axios";
 
 const Main = () => {
 	const [loading, setLoading] = useState(false);
 	const [users, setUsers] = useState([]);
 
-	const getUsers = async () => {
+	const Timeout = (time) => setTimeout(() => setLoading(false), time);
+
+	const Fetch = async () => {
 		setLoading(true);
 		try {
 			const response = await axios.get(
 				"https://reqres.in/api/users?page=1"
 			);
 			setUsers(response.data.data);
-			setTimeout(() => setLoading(false), 3000);
+			Timeout(3000);
 		} catch (error) {
 			console.error(error);
 			setLoading(false);
@@ -26,16 +27,16 @@ const Main = () => {
 	const Reset = () => {
 		setLoading(true);
 		setUsers([]);
-		setTimeout(() => setLoading(false), 3000);
+		Timeout(3000);
 	};
 
 	return (
 		<>
 			<header className="shadow-md flex justify-around h-12 items-center rightColor fixed top-0 w-full text-white">
-				<Link to="/" onClick={Reset} className="text-xl font-semibold ">
+				<h1 onClick={Reset} className="text-xl font-semibold ">
 					Vitor Correa
-				</Link>
-				<button onClick={getUsers} disabled={loading}>
+				</h1>
+				<button onClick={Fetch} disabled={loading}>
 					{loading ? "Loading..." : "Get Users"}
 				</button>
 			</header>
