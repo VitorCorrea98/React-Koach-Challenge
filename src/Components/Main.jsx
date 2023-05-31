@@ -1,42 +1,21 @@
-import React, { useState } from "react";
 import CardUser from "./CardUser";
 import BeforeFetch from "./BeforeFetch";
 import Loader from "./Loader";
-import axios from "axios";
+// import axios from "axios";
+import useFetchReset from "./Hooks/FetchReset";
 
 const Main = () => {
-	const [loading, setLoading] = useState(false);
-	const [users, setUsers] = useState([]);
+	const { loading, users, fetchData, Reset } = useFetchReset();
 
-	const Timeout = (time) => setTimeout(() => setLoading(false), time);
-
-	const Fetch = async () => {
-		setLoading(true);
-		try {
-			const response = await axios.get(
-				"https://reqres.in/api/users?page=1"
-			);
-			setUsers(response.data.data);
-			Timeout(3000);
-		} catch (error) {
-			console.error(error);
-			setLoading(false);
-		}
-	};
-
-	const Reset = () => {
-		setLoading(true);
-		setUsers([]);
-		Timeout(3000);
-	};
+	console.log(users);
 
 	return (
 		<>
 			<header className="shadow-md flex justify-around h-12 items-center rightColor fixed top-0 w-full text-white">
-				<h1 onClick={Reset} className="text-xl font-semibold ">
+				<button onClick={Reset} className="text-xl font-semibold">
 					Vitor Correa
-				</h1>
-				<button onClick={Fetch} disabled={loading}>
+				</button>
+				<button onClick={fetchData} disabled={loading}>
 					{loading ? "Loading..." : "Get Users"}
 				</button>
 			</header>
@@ -46,7 +25,7 @@ const Main = () => {
 				) : (
 					<>
 						{users.length === 0 && <BeforeFetch />}
-						<div className=" Gridao gap-y-12  py-8 px-12 place-items-center">
+						<div className="Gridao gap-y-12 py-8 px-12 place-items-center">
 							{users.map((user) => (
 								<CardUser
 									key={user.id}
